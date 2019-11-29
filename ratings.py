@@ -60,6 +60,29 @@ def self_compare(easy, standard, moderate, hard, hardest):
     hard,hardest = run_matches(hard, hardest)
     return easy, standard, moderate, hard, hardest
 
+def sub_print_rating( rating:trueskill.Rating )->tuple:
+    return round(rating.mu,2), round(rating.sigma,2)
+
+def print_ai_ratings():
+    print("AI_CD_easy",sub_print_rating(AI_CD_easy))
+    print("AI_HD_easy",sub_print_rating(AI_HD_easy))
+    print("AI_res_easy",sub_print_rating(AI_Res_easy))
+    print("")
+    print("AI_CD_standard",sub_print_rating(AI_CD_standard))
+    print("AI_HD_standard",sub_print_rating(AI_HD_standard))
+    print("AI_res_standard",sub_print_rating(AI_Res_standard))
+    print("")
+    print("AI_CD_moderate",sub_print_rating(AI_CD_moderate))
+    print("AI_HD_moderate",sub_print_rating(AI_HD_moderate))
+    print("AI_res_moderate",sub_print_rating(AI_Res_moderate))
+    print("")
+    print("AI_CD_hard",sub_print_rating(AI_CD_hard))
+    print("AI_HD_hard",sub_print_rating(AI_HD_hard))
+    print("AI_res_hard",sub_print_rating(AI_Res_hard))
+    print("")
+    print("AI_CD_hardest",sub_print_rating(AI_CD_hardest))
+    print("AI_HD_hardest",sub_print_rating(AI_HD_hardest))
+    print("AI_res_hardest",sub_print_rating(AI_Res_hardest))
 
 # AI CD
 AI_CD_easy,AI_CD_standard ,AI_CD_moderate ,AI_CD_hard ,AI_CD_hardest = self_compare(AI_CD_easy,
@@ -110,3 +133,7 @@ AI_HD_hard,AI_Res_hard = run_matches(AI_HD_hard, AI_Res_hard)
 AI_CD_hardest,AI_HD_hardest = run_matches(AI_CD_hardest, AI_HD_hardest)
 AI_CD_hardest,AI_Res_hardest = run_matches(AI_CD_hardest, AI_Res_hardest)
 AI_HD_hardest,AI_Res_hardest = run_matches(AI_HD_hardest, AI_Res_hardest)
+
+
+if __name__ == '__main__':
+    print_ai_ratings()
