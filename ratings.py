@@ -1,47 +1,29 @@
 
 import trueskill
 
+
 # AI are sorted by difficulty because you cannot select difficulty per AI, only per match.
-# e.i AI_CD_hard will never be able to play against AI_res_easy
+# e.i AI.CD.hard will never be able to play against AI.Res.easy
 
-AI = {"CD":{"easy":trueskill.Rating(),
-            "standard":trueskill.Rating(),
-            "moderate":trueskill.Rating(),
-            "hard":trueskill.Rating(),
-            "hardest":trueskill.Rating()},
 
-      "HD":{"easy":trueskill.Rating(),
-            "standard":trueskill.Rating(),
-            "moderate":trueskill.Rating(),
-            "hard":trueskill.Rating(),
-            "hardest":trueskill.Rating()},
 
-      "Res":{"easy":trueskill.Rating(),
-            "standard":trueskill.Rating(),
-            "moderate":trueskill.Rating(),
-            "hard":trueskill.Rating(),
-            "hardest":trueskill.Rating()}
-      }
+class difficulty: #difficulty
+    def __init__(self,name=None):
+        self.version = name
+        self.easy = trueskill.Rating()
+        self.standard = trueskill.Rating()
+        self.moderate = trueskill.Rating()
+        self.hard = trueskill.Rating()
+        self.hardest = trueskill.Rating()
 
-AI_CD_easy = trueskill.Rating()
-AI_HD_easy = trueskill.Rating()
-AI_Res_easy = trueskill.Rating()
+    def __repr__(self):
+        return self.version
 
-AI_CD_standard = trueskill.Rating()
-AI_HD_standard = trueskill.Rating()
-AI_Res_standard = trueskill.Rating()
-
-AI_CD_moderate = trueskill.Rating()
-AI_HD_moderate = trueskill.Rating()
-AI_Res_moderate = trueskill.Rating()
-
-AI_CD_hard = trueskill.Rating()
-AI_HD_hard = trueskill.Rating()
-AI_Res_hard = trueskill.Rating()
-
-AI_CD_hardest = trueskill.Rating()
-AI_HD_hardest = trueskill.Rating()
-AI_Res_hardest = trueskill.Rating()
+        
+class AI:
+    CD = difficulty("CD ")
+    HD = difficulty("HD ")
+    Res = difficulty("Res")
 
 
 P1 = trueskill.Rating()
@@ -64,75 +46,91 @@ def sub_print_rating( rating:trueskill.Rating )->tuple:
     return round(rating.mu,2), round(rating.sigma,2)
 
 def print_ai_ratings():
-    print("AI_CD_easy",sub_print_rating(AI_CD_easy))
-    print("AI_HD_easy",sub_print_rating(AI_HD_easy))
-    print("AI_res_easy",sub_print_rating(AI_Res_easy))
+    for v in [AI.CD, AI.HD, AI.Res]:
+        print("AI."+v.version+".easy",sub_print_rating(v.easy))
     print("")
-    print("AI_CD_standard",sub_print_rating(AI_CD_standard))
-    print("AI_HD_standard",sub_print_rating(AI_HD_standard))
-    print("AI_res_standard",sub_print_rating(AI_Res_standard))
+    for v in [AI.CD, AI.HD, AI.Res]:
+        print("AI."+v.version+".standard",sub_print_rating(v.standard))
     print("")
-    print("AI_CD_moderate",sub_print_rating(AI_CD_moderate))
-    print("AI_HD_moderate",sub_print_rating(AI_HD_moderate))
-    print("AI_res_moderate",sub_print_rating(AI_Res_moderate))
+    for v in [AI.CD, AI.HD, AI.Res]:
+        print("AI."+v.version+".moderate",sub_print_rating(v.moderate))
     print("")
-    print("AI_CD_hard",sub_print_rating(AI_CD_hard))
-    print("AI_HD_hard",sub_print_rating(AI_HD_hard))
-    print("AI_res_hard",sub_print_rating(AI_Res_hard))
+    for v in [AI.CD, AI.HD, AI.Res]:
+        print("AI."+v.version+".hard",sub_print_rating(v.hard))
     print("")
-    print("AI_CD_hardest",sub_print_rating(AI_CD_hardest))
-    print("AI_HD_hardest",sub_print_rating(AI_HD_hardest))
-    print("AI_res_hardest",sub_print_rating(AI_Res_hardest))
+    for v in [AI.CD, AI.HD, AI.Res]:
+        print("AI."+v.version+".hardest",sub_print_rating(v.hardest))
 
 # AI CD
-AI_CD_easy,AI_CD_standard ,AI_CD_moderate ,AI_CD_hard ,AI_CD_hardest = self_compare(AI_CD_easy,
-                                                                                    AI_CD_standard,
-                                                                                    AI_CD_moderate,
-                                                                                    AI_CD_hard,
-                                                                                    AI_CD_hardest)
+AI.CD.standard,AI.CD.standard ,AI.CD.moderate ,AI.CD.hard ,AI.CD.hardest = self_compare(AI.CD.easy,
+                                                                                        AI.CD.standard,
+                                                                                        AI.CD.moderate,
+                                                                                        AI.CD.hard,
+                                                                                        AI.CD.hardest)
 
 # AI HD
-AI_HD_easy,AI_HD_standard ,AI_HD_moderate ,AI_HD_hard ,AI_HD_hardest = self_compare(AI_HD_easy,
-                                                                                    AI_HD_standard,
-                                                                                    AI_HD_moderate,
-                                                                                    AI_HD_hard,
-                                                                                    AI_HD_hardest)
+AI.HD.easy,AI.HD.standard ,AI.HD.moderate ,AI.HD.hard ,AI.HD.hardest = self_compare(AI.HD.easy,
+                                                                                    AI.HD.standard,
+                                                                                    AI.HD.moderate,
+                                                                                    AI.HD.hard,
+                                                                                    AI.HD.hardest)
 
 # AI Res
-AI_Res_easy,AI_Res_standard ,AI_Res_moderate ,AI_Res_hard ,AI_Res_hardest = self_compare(AI_Res_easy,
-                                                                                         AI_Res_standard,
-                                                                                         AI_Res_moderate,
-                                                                                         AI_Res_hard,
-                                                                                         AI_Res_hardest)
+AI.Res.easy,AI.Res.standard ,AI.Res.moderate ,AI.Res.hard ,AI.Res.hardest = self_compare(AI.Res.easy,
+                                                                                         AI.Res.standard,
+                                                                                         AI.Res.moderate,
+                                                                                         AI.Res.hard,
+                                                                                         AI.Res.hardest)
 
 # Easy difficulty
-AI_CD_easy, AI_HD_easy = run_matches(AI_CD_easy, AI_HD_easy)
-AI_CD_easy, AI_Res_easy = run_matches(AI_CD_easy, AI_Res_easy)
-AI_HD_easy, AI_Res_easy = run_matches(AI_HD_easy, AI_Res_easy)
+AI.CD.easy, AI.HD.easy = run_matches(AI.CD.easy, AI.HD.easy)
+AI.CD.easy, AI.Res.easy = run_matches(AI.CD.easy, AI.Res.easy)
+AI.HD.easy, AI.Res.easy = run_matches(AI.HD.easy, AI.Res.easy)
 
 
 # Standard
-AI_CD_standard,AI_HD_standard = run_matches(AI_CD_standard, AI_HD_standard)
-AI_CD_standard,AI_Res_standard = run_matches(AI_CD_standard, AI_Res_standard)
-AI_HD_standard,AI_Res_standard = run_matches(AI_HD_standard, AI_Res_standard)
+AI.CD.standard,AI.HD.standard = run_matches(AI.CD.standard, AI.HD.standard)
+AI.CD.standard,AI.Res.standard = run_matches(AI.CD.standard, AI.Res.standard)
+AI.HD.standard,AI.Res.standard = run_matches(AI.HD.standard, AI.Res.standard)
 
 
 # Moderate
-AI_CD_moderate,AI_HD_moderate = run_matches(AI_CD_moderate, AI_HD_moderate)
-AI_CD_moderate,AI_Res_moderate = run_matches(AI_CD_moderate, AI_Res_moderate)
-AI_HD_moderate,AI_Res_moderate = run_matches(AI_HD_moderate, AI_Res_moderate)
+AI.CD.moderate,AI.HD.moderate = run_matches(AI.CD.moderate, AI.HD.moderate)
+AI.CD.moderate,AI.Res.moderate = run_matches(AI.CD.moderate, AI.Res.moderate)
+AI.HD.moderate,AI.Res.moderate = run_matches(AI.HD.moderate, AI.Res.moderate)
 
 
 # Hard
-AI_CD_hard,AI_HD_hard = run_matches(AI_CD_hard, AI_HD_hard)
-AI_CD_hard,AI_Res_hard = run_matches(AI_CD_hard, AI_Res_hard)
-AI_HD_hard,AI_Res_hard = run_matches(AI_HD_hard, AI_Res_hard)
+AI.CD.hard,AI.HD.hard = run_matches(AI.CD.hard, AI.HD.hard)
+AI.CD.hard,AI.Res.hard = run_matches(AI.CD.hard, AI.Res.hard)
+AI.HD.hard,AI.Res.hard = run_matches(AI.HD.hard, AI.Res.hard)
 
 
 # Hardest
-AI_CD_hardest,AI_HD_hardest = run_matches(AI_CD_hardest, AI_HD_hardest)
-AI_CD_hardest,AI_Res_hardest = run_matches(AI_CD_hardest, AI_Res_hardest)
-AI_HD_hardest,AI_Res_hardest = run_matches(AI_HD_hardest, AI_Res_hardest)
+AI.CD.hardest,AI.HD.hardest = run_matches(AI.CD.hardest, AI.HD.hardest)
+AI.CD.hardest,AI.Res.hardest = run_matches(AI.CD.hardest, AI.Res.hardest)
+AI.HD.hardest,AI.Res.hardest = run_matches(AI.HD.hardest, AI.Res.hardest)
+
+
+
+
+
+
+import itertools
+import math
+
+
+#Code of this function from snippet from Trueskill.org
+def win_probability(team1, team2, BETA=5):
+    delta_mu = sum(r.mu for r in team1) - sum(r.mu for r in team2)
+    sum_sigma = sum(r.sigma ** 2 for r in itertools.chain(team1, team2))
+    size = len(team1) + len(team2)
+    denom = math.sqrt(size * (BETA * BETA) + sum_sigma)
+    ts = trueskill.global_env()
+    return ts.cdf(delta_mu / denom)
+
+
+
 
 
 if __name__ == '__main__':
