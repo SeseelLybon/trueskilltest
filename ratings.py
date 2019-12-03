@@ -6,6 +6,9 @@ import trueskill
 # e.i AI.CD.hard will never be able to play against AI.Res.easy
 
 
+TS_env = trueskill.setup()
+
+
 
 class difficulty: #difficulty
     def __init__(self,name=None):
@@ -19,6 +22,8 @@ class difficulty: #difficulty
     def __repr__(self):
         return self.version
 
+    def __iter__(self):
+        pass
         
 class AI:
     CD = difficulty("CD ")
@@ -121,7 +126,7 @@ import math
 
 
 #Code of this function from snippet from Trueskill.org
-def win_probability(team1, team2, BETA=5):
+def win_probability(team1, team2, BETA=TS_env.beta):
     delta_mu = sum(r.mu for r in team1) - sum(r.mu for r in team2)
     sum_sigma = sum(r.sigma ** 2 for r in itertools.chain(team1, team2))
     size = len(team1) + len(team2)

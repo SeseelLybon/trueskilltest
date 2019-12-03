@@ -58,7 +58,33 @@ print()
 print("P1\t", sub_print_rating(P1))
 print("P2\t", sub_print_rating(P2))
 
+print("")
 team1 = [P1, P2]
-team2 = [AI.Res.easy,AI.Res.easy]
-print(trueskill.quality([team1, team2]))
-print(win_probability(team1, team2))
+
+
+
+
+print("")
+
+# Make list to sort by mu
+ratings = []
+for v in [AI.CD, AI.HD, AI.Res]:
+    for d in [v.easy,v.standard,v.moderate,v.hard,v.hardest]:
+        ratings.append()
+
+print(ratings)
+sorted(ratings, key=lambda x: x.mu)
+
+
+
+'''
+    print("AI." + v.version + ".easy", sub_print_rating(v.easy))
+    print("drawchance:",round(trueskill.quality([team1, team2]),2))
+    print("winchance:",round(win_probability(team1, team2),2))
+
+team2 = [AI.CD.hardest,AI.CD.hardest]
+print("CD Hardest,CD Hardest")
+print("drawchance:",round(trueskill.quality([team1, team2]),2))
+print("winchance:",round(win_probability(team1, team2),2))
+print("")
+'''
