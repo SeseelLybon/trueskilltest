@@ -3,52 +3,29 @@ import trueskill
 
 
 # AI are sorted by difficulty because you cannot select difficulty per AI, only per match.
-# e.i AI.CD.hard will never be able to play against AI.Res.easy
+# e.i AI["CD"]["hard"] will never be able to play against AI["Res"]["easy"]
 
 
 TS_env = trueskill.setup()
 
 
 
-class difficulty: #difficulty
-    def __init__(self,name=None):
-        self.name = name
-        self.easy = trueskill.Rating()
-        self.standard = trueskill.Rating()
-        self.moderate = trueskill.Rating()
-        self.hard = trueskill.Rating()
-        self.hardest = trueskill.Rating()
-
-    def __repr__(self):
-        return self.name
-
-    def __iter__(self):
-        pass
-        
-class AIc:
-    CD = difficulty("CD ")
-    HD = difficulty("HD ")
-    Res = difficulty("Res")
-
-AI = AIc()
-
-
-AI_dict = {"CD":{"easy"     :AI.CD.easy,
-                 "standard" :AI.CD.standard,
-                 "moderate" :AI.CD.moderate,
-                 "hard"     :AI.CD.hard,
-                 "hardest"  :AI.CD.hardest},
-           "HD":{"easy"     :AI.HD.easy,
-                 "standard" :AI.HD.standard,
-                 "moderate" :AI.HD.moderate,
-                 "hard"     :AI.HD.hard,
-                 "hardest"  :AI.HD.hardest},
-           "Res":{"easy"    :AI.Res.easy,
-                 "standard" :AI.Res.standard,
-                 "moderate" :AI.Res.moderate,
-                 "hard"     :AI.Res.hard,
-                 "hardest"  :AI.Res.hardest}
-           }
+AI = {"CD":{"easy"      :trueskill.Rating(),
+             "standard" :trueskill.Rating(),
+             "moderate" :trueskill.Rating(),
+             "hard"     :trueskill.Rating(),
+             "hardest"  :trueskill.Rating()},
+       "HD":{"easy"     :trueskill.Rating(),
+             "standard" :trueskill.Rating(),
+             "moderate" :trueskill.Rating(),
+             "hard"     :trueskill.Rating(),
+             "hardest"  :trueskill.Rating()},
+       "Res":{"easy"    :trueskill.Rating(),
+             "standard" :trueskill.Rating(),
+             "moderate" :trueskill.Rating(),
+             "hard"     :trueskill.Rating(),
+             "hardest"  :trueskill.Rating()}
+       }
 
 
 P1 = trueskill.Rating()
@@ -71,27 +48,12 @@ def sub_print_rating( rating:trueskill.Rating )->tuple:
     return round(rating.mu,1), round(rating.sigma,1)
 
 def apply_names_to_ratings():
-    for v in [AI.CD, AI.HD, AI.Res]:
-        v.easy.name = "easy\t\t"
-        v.standard.name = "standard\t"
-        v.moderate.name = "moderate\t"
-        v.hard.name = "hard\t\t"
-        v.hardest.name = "hardest\t\t"
-
-    for v in [AI_dict["CD"], AI_dict["HD"], AI_dict["Res"]]:
-        v["easy"].name = "easy\t\t"
-        v["standard"].name = "standard\t"
-        v["moderate"].name = "moderate\t"
-        v["hard"].name = "hard\t\t"
-        v["hardest"].name = "hardest\t\t"
-
-def apply_names_to_rating( rating ):
-    for v in [rating.CD, rating.HD, rating.Res]:
-        v.easy.name = "easy\t\t"
-        v.standard.name = "standard\t"
-        v.moderate.name = "moderate\t"
-        v.hard.name = "hard\t\t"
-        v.hardest.name = "hardest\t\t"
+    for vk in AI.keys():
+        AI[vk]["easy"].name = "easy\t\t"
+        AI[vk]["standard"].name = "standard\t"
+        AI[vk]["moderate"].name = "moderate\t"
+        AI[vk]["hard"].name = "hard\t\t"
+        AI[vk]["hardest"].name = "hardest\t\t"
 
 def print_ai_ratings():
     apply_names_to_rating()
@@ -117,54 +79,54 @@ def print_ai_sorted_mu():
 
 
 # AI CD
-AI.CD.standard,AI.CD.standard ,AI.CD.moderate ,AI.CD.hard ,AI.CD.hardest = self_compare(AI.CD.easy,
-                                                                                        AI.CD.standard,
-                                                                                        AI.CD.moderate,
-                                                                                        AI.CD.hard,
-                                                                                        AI.CD.hardest)
+AI["CD"]["standard"],AI["CD"]["standard"] ,AI["CD"]["moderate"] ,AI["CD"]["hard"] ,AI["HD"]["hardest"] = self_compare(AI["CD"]["easy"],
+                                                                                        AI["CD"]["standard"],
+                                                                                        AI["CD"]["moderate"],
+                                                                                        AI["CD"]["hard"],
+                                                                                        AI["HD"]["hardest"])
 
 # AI HD
-AI.HD.easy,AI.HD.standard ,AI.HD.moderate ,AI.HD.hard ,AI.HD.hardest = self_compare(AI.HD.easy,
-                                                                                    AI.HD.standard,
-                                                                                    AI.HD.moderate,
-                                                                                    AI.HD.hard,
-                                                                                    AI.HD.hardest)
+AI["HD"]["easy"],AI["HD"]["standard"] ,AI["HD"]["moderate"] ,AI["HD"]["hard"] ,AI["HD"]["hardest"] = self_compare(AI["HD"]["easy"],
+                                                                                    AI["HD"]["standard"],
+                                                                                    AI["HD"]["moderate"],
+                                                                                    AI["HD"]["hard"],
+                                                                                    AI["HD"]["hardest"])
 
 # AI Res
-AI.Res.easy,AI.Res.standard ,AI.Res.moderate ,AI.Res.hard ,AI.Res.hardest = self_compare(AI.Res.easy,
-                                                                                         AI.Res.standard,
-                                                                                         AI.Res.moderate,
-                                                                                         AI.Res.hard,
-                                                                                         AI.Res.hardest)
+AI["Res"]["easy"],AI["Res"]["standard"] ,AI["Res"]["moderate"] ,AI["Res"]["hard"] ,AI["Res"]["hardest"] = self_compare(AI["Res"]["easy"],
+                                                                                         AI["Res"]["standard"],
+                                                                                         AI["Res"]["moderate"],
+                                                                                         AI["Res"]["hard"],
+                                                                                         AI["Res"]["hardest"])
 
 # Easy difficulty
-AI.CD.easy, AI.HD.easy = run_matches(AI.CD.easy, AI.HD.easy)
-AI.CD.easy, AI.Res.easy = run_matches(AI.CD.easy, AI.Res.easy)
-AI.HD.easy, AI.Res.easy = run_matches(AI.HD.easy, AI.Res.easy)
+AI["CD"]["easy"], AI["HD"]["easy"] = run_matches(AI["CD"]["easy"], AI["HD"]["easy"])
+AI["CD"]["easy"], AI["Res"]["easy"] = run_matches(AI["CD"]["easy"], AI["Res"]["easy"])
+AI["HD"]["easy"], AI["Res"]["easy"] = run_matches(AI["HD"]["easy"], AI["Res"]["easy"])
 
 
 # Standard
-AI.CD.standard,AI.HD.standard = run_matches(AI.CD.standard, AI.HD.standard)
-AI.CD.standard,AI.Res.standard = run_matches(AI.CD.standard, AI.Res.standard)
-AI.HD.standard,AI.Res.standard = run_matches(AI.HD.standard, AI.Res.standard)
+AI["CD"]["standard"],AI["HD"]["standard"] = run_matches(AI["CD"]["standard"], AI["HD"]["standard"])
+AI["CD"]["standard"],AI["Res"]["standard"] = run_matches(AI["CD"]["standard"], AI["Res"]["standard"])
+AI["HD"]["standard"],AI["Res"]["standard"] = run_matches(AI["HD"]["standard"], AI["Res"]["standard"])
 
 
 # Moderate
-AI.CD.moderate,AI.HD.moderate = run_matches(AI.CD.moderate, AI.HD.moderate)
-AI.CD.moderate,AI.Res.moderate = run_matches(AI.CD.moderate, AI.Res.moderate)
-AI.HD.moderate,AI.Res.moderate = run_matches(AI.HD.moderate, AI.Res.moderate)
+AI["CD"]["moderate"],AI["HD"]["moderate"] = run_matches(AI["CD"]["moderate"], AI["HD"]["moderate"])
+AI["CD"]["moderate"],AI["Res"]["moderate"] = run_matches(AI["CD"]["moderate"], AI["Res"]["moderate"])
+AI["HD"]["moderate"],AI["Res"]["moderate"] = run_matches(AI["HD"]["moderate"], AI["Res"]["moderate"])
 
 
 # Hard
-AI.CD.hard,AI.HD.hard = run_matches(AI.CD.hard, AI.HD.hard)
-AI.CD.hard,AI.Res.hard = run_matches(AI.CD.hard, AI.Res.hard)
-AI.HD.hard,AI.Res.hard = run_matches(AI.HD.hard, AI.Res.hard)
+AI["CD"]["hard"],AI["HD"]["hard"] = run_matches(AI["CD"]["hard"], AI["HD"]["hard"])
+AI["CD"]["hard"],AI["Res"]["hard"] = run_matches(AI["CD"]["hard"], AI["Res"]["hard"])
+AI["HD"]["hard"],AI["Res"]["hard"] = run_matches(AI["HD"]["hard"], AI["Res"]["hard"])
 
 
 # Hardest
-AI.CD.hardest,AI.HD.hardest = run_matches(AI.CD.hardest, AI.HD.hardest)
-AI.CD.hardest,AI.Res.hardest = run_matches(AI.CD.hardest, AI.Res.hardest)
-AI.HD.hardest,AI.Res.hardest = run_matches(AI.HD.hardest, AI.Res.hardest)
+AI["HD"]["hardest"],AI["HD"]["hardest"] = run_matches(AI["HD"]["hardest"], AI["HD"]["hardest"])
+AI["HD"]["hardest"],AI["Res"]["hardest"] = run_matches(AI["HD"]["hardest"], AI["Res"]["hardest"])
+AI["HD"]["hardest"],AI["Res"]["hardest"] = run_matches(AI["HD"]["hardest"], AI["Res"]["hardest"])
 
 
 
