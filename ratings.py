@@ -12,7 +12,7 @@ TS_env = trueskill.setup()
 
 class difficulty: #difficulty
     def __init__(self,name=None):
-        self.version = name
+        self.name = name
         self.easy = trueskill.Rating()
         self.standard = trueskill.Rating()
         self.moderate = trueskill.Rating()
@@ -20,15 +20,35 @@ class difficulty: #difficulty
         self.hardest = trueskill.Rating()
 
     def __repr__(self):
-        return self.version
+        return self.name
 
     def __iter__(self):
         pass
         
-class AI:
+class AIc:
     CD = difficulty("CD ")
     HD = difficulty("HD ")
     Res = difficulty("Res")
+
+AI = AIc()
+
+
+AI_dict = {"CD":{"easy"     :AI.CD.easy,
+                 "standard" :AI.CD.standard,
+                 "moderate" :AI.CD.moderate,
+                 "hard"     :AI.CD.hard,
+                 "hardest"  :AI.CD.hardest},
+           "HD":{"easy"     :AI.HD.easy,
+                 "standard" :AI.HD.standard,
+                 "moderate" :AI.HD.moderate,
+                 "hard"     :AI.HD.hard,
+                 "hardest"  :AI.HD.hardest},
+           "Res":{"easy"    :AI.Res.easy,
+                 "standard" :AI.Res.standard,
+                 "moderate" :AI.Res.moderate,
+                 "hard"     :AI.Res.hard,
+                 "hardest"  :AI.Res.hardest}
+           }
 
 
 P1 = trueskill.Rating()
@@ -48,23 +68,53 @@ def self_compare(easy, standard, moderate, hard, hardest):
     return easy, standard, moderate, hard, hardest
 
 def sub_print_rating( rating:trueskill.Rating )->tuple:
-    return round(rating.mu,2), round(rating.sigma,2)
+    return round(rating.mu,1), round(rating.sigma,1)
+
+def apply_names_to_ratings():
+    for v in [AI.CD, AI.HD, AI.Res]:
+        v.easy.name = "easy\t\t"
+        v.standard.name = "standard\t"
+        v.moderate.name = "moderate\t"
+        v.hard.name = "hard\t\t"
+        v.hardest.name = "hardest\t\t"
+
+    for v in [AI_dict["CD"], AI_dict["HD"], AI_dict["Res"]]:
+        v["easy"].name = "easy\t\t"
+        v["standard"].name = "standard\t"
+        v["moderate"].name = "moderate\t"
+        v["hard"].name = "hard\t\t"
+        v["hardest"].name = "hardest\t\t"
+
+def apply_names_to_rating( rating ):
+    for v in [rating.CD, rating.HD, rating.Res]:
+        v.easy.name = "easy\t\t"
+        v.standard.name = "standard\t"
+        v.moderate.name = "moderate\t"
+        v.hard.name = "hard\t\t"
+        v.hardest.name = "hardest\t\t"
 
 def print_ai_ratings():
+    apply_names_to_rating()
+
     for v in [AI.CD, AI.HD, AI.Res]:
-        print("AI."+v.version+".easy",sub_print_rating(v.easy))
+        for d in [v.easy, v.standard, v.moderate, v.standard,v.hard, v.hardest]:
+            print(v.name, d.name, sub_print_rating(d))
+
+
+# Make list to sort by mu
+def print_ai_sorted_mu():
+    ratings = []
+    for v in [AI.CD, AI.HD, AI.Res]:
+        for d in [v.easy, v.standard, v.moderate, v.hard, v.hardest]:
+            ratings.append((v, d))
+
+    ratings = sorted(ratings, key=lambda x: x[1].mu)
+
     print("")
-    for v in [AI.CD, AI.HD, AI.Res]:
-        print("AI."+v.version+".standard",sub_print_rating(v.standard))
-    print("")
-    for v in [AI.CD, AI.HD, AI.Res]:
-        print("AI."+v.version+".moderate",sub_print_rating(v.moderate))
-    print("")
-    for v in [AI.CD, AI.HD, AI.Res]:
-        print("AI."+v.version+".hard",sub_print_rating(v.hard))
-    print("")
-    for v in [AI.CD, AI.HD, AI.Res]:
-        print("AI."+v.version+".hardest",sub_print_rating(v.hardest))
+
+    for v, d in ratings:
+        print(v.name, d.name, sub_print_rating(d))
+
 
 # AI CD
 AI.CD.standard,AI.CD.standard ,AI.CD.moderate ,AI.CD.hard ,AI.CD.hardest = self_compare(AI.CD.easy,
