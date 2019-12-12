@@ -56,7 +56,6 @@ def apply_names_to_ratings():
         AI[vk]["hardest"].name = "hardest\t\t"
 
 def print_ai_ratings():
-    apply_names_to_rating()
 
     for v in [AI.CD, AI.HD, AI.Res]:
         for d in [v.easy, v.standard, v.moderate, v.standard,v.hard, v.hardest]:
@@ -151,4 +150,5 @@ def win_probability(team1, team2, BETA=TS_env.beta):
 
 
 if __name__ == '__main__':
-    print_ai_ratings()
+    #print_ai_ratings()
+    print(list(itertools.combinations_with_replacement("ABCD",3)))

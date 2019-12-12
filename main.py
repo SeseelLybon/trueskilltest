@@ -79,25 +79,31 @@ for vk, vv in AI.items():
     for dk, dv in AI[vk].items():
         all_AI.append((vk,dk))
 
-all_team21 = set(itertools.combinations(all_AI, 1))
+all_team21 = set(all_AI)
 
 #for s_team2 in all_team21:
 #    print(s_team2)
 
-all_team22 = set(itertools.combinations(all_AI, 2))
+all_team22 = set(itertools.combinations_with_replacement(all_AI, 2))
 
-#for s_team2 in all_team22:
-#    print(s_team2)
 
 all_team2 = list(all_team21)+list(all_team22)
+
+
 winchances = []
 for s_team2 in all_team2:
-    team2 = []
-    team2p = []
-    for player in s_team2:
-        team2.append(AI[player[0]][player[1]])
-        team2p = [player]
-    winchances.append((team2p, team2, win_probability(team1, team2)))
+    iter_teamkeys = []
+    iter_team2 = []
+
+    if isinstance(s_team2[0], str):
+        iter_teamkeys.append((s_team2[0],s_team2[1]))
+        iter_team2= [AI[s_team2[0]][s_team2[1]]]
+    else:
+        for player in s_team2:
+            iter_team2.append( AI[player[0]][player[1]] )
+            iter_teamkeys.append(player)
+
+    winchances.append( (iter_teamkeys, win_probability(team1, iter_team2)) )
 
 
 
