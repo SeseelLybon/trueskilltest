@@ -67,9 +67,6 @@ print("")
 
 #TODO: somehow figure out how to run winchance against team1 vs x or x+y AI
 
-from copy import deepcopy
-
-apply_names_to_ratings()
 
 
 # Attempt at using itertools.combinations
@@ -79,15 +76,46 @@ for vk, vv in AI.items():
     for dk, dv in AI[vk].items():
         all_AI.append((vk,dk))
 
-all_team21 = set(all_AI)
+all_team2 = list(all_AI)
+
+all_easy = [(vk, "easy") for vk in AI.keys()]
+all_standard = [(vk, "standard") for vk in AI.keys()]
+all_moderate = [(vk, "moderate") for vk in AI.keys()]
+all_hard = [(vk, "hard") for vk in AI.keys()]
+all_hardest = [(vk, "hardest") for vk in AI.keys()]
 
 #for s_team2 in all_team21:
 #    print(s_team2)
 
-all_team22 = set(itertools.combinations_with_replacement(all_AI, 2))
+all_team2 += list(itertools.combinations_with_replacement(all_easy, 2)) +\
+             list(itertools.combinations_with_replacement(all_standard, 2)) +\
+             list(itertools.combinations_with_replacement(all_moderate, 2)) +\
+             list(itertools.combinations_with_replacement(all_hard, 2)) +\
+             list(itertools.combinations_with_replacement(all_hardest, 2))
 
+all_team2 += list(itertools.combinations_with_replacement(all_easy, 3)) +\
+             list(itertools.combinations_with_replacement(all_standard, 3)) +\
+             list(itertools.combinations_with_replacement(all_moderate, 3)) +\
+             list(itertools.combinations_with_replacement(all_hard, 3)) +\
+             list(itertools.combinations_with_replacement(all_hardest, 3))
 
-all_team2 = list(all_team21)+list(all_team22)
+all_team2 += list(itertools.combinations_with_replacement(all_easy, 4)) +\
+             list(itertools.combinations_with_replacement(all_standard, 4)) +\
+             list(itertools.combinations_with_replacement(all_moderate, 4)) +\
+             list(itertools.combinations_with_replacement(all_hard, 4)) +\
+             list(itertools.combinations_with_replacement(all_hardest, 4))
+
+all_team2 += list(itertools.combinations_with_replacement(all_easy, 5)) +\
+             list(itertools.combinations_with_replacement(all_standard, 5)) +\
+             list(itertools.combinations_with_replacement(all_moderate, 5)) +\
+             list(itertools.combinations_with_replacement(all_hard, 5)) +\
+             list(itertools.combinations_with_replacement(all_hardest, 5))
+
+all_team2 += list(itertools.combinations_with_replacement(all_easy, 6)) +\
+             list(itertools.combinations_with_replacement(all_standard, 6)) +\
+             list(itertools.combinations_with_replacement(all_moderate, 6)) +\
+             list(itertools.combinations_with_replacement(all_hard, 6)) +\
+             list(itertools.combinations_with_replacement(all_hardest, 6))
 
 
 winchances = []
@@ -114,16 +142,43 @@ for s_team2 in all_team2:
 #        winchance = win_probability(team1, team2)
 #        winchances.append((v, d, winchance))
 #
-#winchances = sorted(winchances, key=lambda x: x[2])
+winchances = sorted(winchances, key=lambda x: x[1])
 
 for game in winchances:
-    apply_names_to_ratings()
 
-    if len(game[0]) == 1:
-        print(game[0][0][0], game[0][0][1], "\t", str(round(game[2],2))+"%")
-    else:
-        print(game[0][0][0], game[0][1][0], round(game[1][0].mu,1))
-        print(game[0][0][1], game[0][1][1], round(game[1][1].mu,1), "\t", str(round(game[2],2))+"%")
+    for player_i in range(len(game[0])-1):
+        print(game[0][player_i][0], game[0][player_i][1])
+
+    print(game[0][-1][0], game[0][-1][1], "\t", str(round(game[1], 2)) + "%")
+
+
+    #if len(game[0]) == 1:
+    #    print(game[0][0][0], game[0][0][1], "\t", str(round(game[1],2))+"%")
+    #elif len(game[0]) == 2:
+    #    print(game[0][0][0], game[0][0][1])
+    #    print(game[0][1][0], game[0][1][1], "\t", str(round(game[1],2))+"%")
+    #elif len(game[0]) == 3:
+    #    print(game[0][0][0], game[0][0][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][2][0], game[0][2][1], "\t", str(round(game[1],2))+"%")
+    #elif len(game[0]) == 4:
+    #    print(game[0][0][0], game[0][0][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][2][0], game[0][2][1], "\t", str(round(game[1],2))+"%")
+    #elif len(game[0]) == 5:
+    #    print(game[0][0][0], game[0][0][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][2][0], game[0][2][1], "\t", str(round(game[1],2))+"%")
+    #elif len(game[0]) == 6:
+    #    print(game[0][0][0], game[0][0][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][1][0], game[0][1][1])
+    #    print(game[0][2][0], game[0][2][1], "\t", str(round(game[1],2))+"%")
 
 
 #winchances = []
