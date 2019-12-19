@@ -47,34 +47,25 @@ def self_compare(easy, standard, moderate, hard, hardest):
 def sub_print_rating( rating:trueskill.Rating )->tuple:
     return round(rating.mu,1), round(rating.sigma,1)
 
-def apply_names_to_ratings():
-    for vk in AI.keys():
-        AI[vk]["easy"].name = "easy\t\t"
-        AI[vk]["standard"].name = "standard\t"
-        AI[vk]["moderate"].name = "moderate\t"
-        AI[vk]["hard"].name = "hard\t\t"
-        AI[vk]["hardest"].name = "hardest\t\t"
-
 def print_ai_ratings():
+    for vk, vv in AI.items():
+        for dk, dv in AI[vk].items():
+            print(vk, dk, sub_print_rating(dv))
 
-    for v in [AI.CD, AI.HD, AI.Res]:
-        for d in [v.easy, v.standard, v.moderate, v.standard,v.hard, v.hardest]:
-            print(v.name, d.name, sub_print_rating(d))
 
-
-# Make list to sort by mu
-def print_ai_sorted_mu():
-    ratings = []
-    for v in [AI.CD, AI.HD, AI.Res]:
-        for d in [v.easy, v.standard, v.moderate, v.hard, v.hardest]:
-            ratings.append((v, d))
-
-    ratings = sorted(ratings, key=lambda x: x[1].mu)
-
-    print("")
-
-    for v, d in ratings:
-        print(v.name, d.name, sub_print_rating(d))
+## Make list to sort by mu
+#def print_ai_sorted_mu():
+#    ratings = []
+#    for v in [AI.values()]:
+#        for d in [v.easy, v.standard, v.moderate, v.hard, v.hardest]:
+#            ratings.append((v, d))
+#
+#    ratings = sorted(ratings, key=lambda x: x[1].mu)
+#
+#    print("")
+#
+#    for v, d in ratings:
+#        print(v.name, d.name, sub_print_rating(d))
 
 
 # AI CD
@@ -144,11 +135,3 @@ def win_probability(team1, team2, BETA=TS_env.beta):
     denom = math.sqrt(size * (BETA * BETA) + sum_sigma)
     ts = trueskill.global_env()
     return ts.cdf(delta_mu / denom)
-
-
-
-
-
-if __name__ == '__main__':
-    #print_ai_ratings()
-    print(list(itertools.combinations_with_replacement("ABCD",3)))
